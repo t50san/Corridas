@@ -1,65 +1,41 @@
-import { ScrollView } from 'react-native';
-import { Container, Logo, ImageLogo, List, RowData, Bmi, Classification } from './app/src/styles/custom';
+import { ScrollView, View, Text, StyleSheet, TextInput, Dimensions} from 'react-native';
+
 
 export default function App() {
+  const styles = StyleSheet.create({
+    main_scroll_view:{
+      backgroundColor: "#468181"
+    },
+    main_view: {
+      margin: 10,
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    container_item: {
+      height: 200,
+      width: Dimensions.get("window").width - 50,
+      margin: 10,
+      borderWidth: 1,
+      borderRadius: 10,
+      borderColor: "#ffffff"
+    },
+    title_container_item: {
+      color: "#ffffff",
+      fontSize: 20,
+      textAlign: "center"
+    }
+  })
+
   return (
-    <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-      <Container>
-
-        { /* Carregar a logo */}
-        <Logo>
-          <ImageLogo source={require('./app/assets/logo.png')} />
-        </Logo>
-
-        {/* Criar a lista de classificação do IMC */}
-        <List>
-          <RowData>
-            <Bmi>
-              Menor que 18,5
-            </Bmi>
-            <Classification>
-              Magreza
-            </Classification>
-          </RowData>
-
-          <RowData>
-            <Bmi>
-              Entre 18,5 e 24,9
-            </Bmi>
-            <Classification>
-              Normal
-            </Classification>
-          </RowData>
-
-          <RowData>
-            <Bmi>
-              Entre 25,0 e 29,9
-            </Bmi>
-            <Classification>
-              Sobrepeso
-            </Classification>
-          </RowData>
-
-          <RowData>
-            <Bmi>
-              Entre 30,0 e 39,9
-            </Bmi>
-            <Classification>
-              Obesidade
-            </Classification>
-          </RowData>
-
-          <RowData>
-            <Bmi>
-              Maior que 40,0
-            </Bmi>
-            <Classification>
-              Obesidade Grave
-            </Classification>
-          </RowData>
-        </List>
-
-      </Container>
+    <ScrollView style={styles.main_scroll_view}>
+      <View style={styles.main_view}>
+        <View style={styles.container_item}>
+            <Text style={styles.title_container_item}>Title</Text>
+            <TextInput>
+            </TextInput>
+        </View>
+      </View>
     </ScrollView>
   );
 }
