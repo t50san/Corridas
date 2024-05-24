@@ -1,3 +1,6 @@
+Aplicativo para registro de corridas para motoristas de aplicativo/cooperativas
+
+
 ## Como rodar o projeto baixado
  Requisitos
  *Node.js 20 ou superior
