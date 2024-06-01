@@ -55,37 +55,39 @@ const encontrarCorridaPorPassageiro = (passageiro, callback) => {
   });
 };
 
-/*const alterarJogo = (idpassageiro,origem, destino, valor, data, ndoc, meioPG, indicacao, fonteIndicacao=> {
+const alterarCorrida = (passageiro,origem, destino, valor, data, ndoc, meioPG, indicacao, fonteIndicacao, callback) => {
   db.transaction((tx) => {
-    const sql = 'UPDATE jogos SEpassageiro,origem, destino, valor, data, ndoc, meioPG, indicacao, fonteIndicacaoobre = ? WHERE id = ?';
-    const params =passageiro,origem, destino, valor, data, ndoc, meioPG, indicacao, fonteIndicacaotx.executeSql(
+    const sql = 'UPDATE corrida SET passageiro = ?,origem = ?, destino = ?, valor = ?, data = ?, ndoc = ?, meioPG = ?, indicacao = ?, fonteIndicacao = ? WHERE id = ?';
+    const params = [passageiro,origem, destino, valor, data, ndoc, meioPG, indicacao, fonteIndicacao];
+    
+    tx.executeSql(
       sql,
       params,
       (_, result) => {
         callback(result.rowsAffected);
       },
       (_, error) => {
-        console.error('Erro ao alterar jogo:', error);
+        console.error('Erro ao alterar corrida:', error);
         callback(0);
       }
     );
   });
 };
 
-const excluirJogo = (id, callback) => {
+const excluirCorrida = (passageiro, callback) => {
   db.transaction((tx) => {
     tx.executeSql(
-      'DELETE FROM jogos WHERE id = ?',
+      'DELETE FROM corrida WHERE id = ?',
       [id],
       (_, result) => {
         callback(result.rowsAffected);
       },
       (_, error) => {
-        console.error('Erro ao excluir jogo:', error);
+        console.error('Erro ao excluir corrida:', error);
         callback(0);
       }
     );
   });
 };
 
-export { adicionarJogo, listarJogos, alterarJogo, encontrarJogoPpassageiro,origem, destino, valor, data, ndoc, meioPG, indicacao, fonteIndicacao
+export { adicionarCorrida, listarCorridas, alterarCorrida, encontrarCorridaPorPassageiro, excluirCorrida };

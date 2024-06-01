@@ -21,6 +21,11 @@ export default function App() {
                     
                 </TextTitle>
                 <InputForm
+                    placeholder="Nº Doc"
+                    value={numDoc}
+                    onChangeText={text => setNumDoc(text)}
+                />
+                <InputForm
                     placeholder="Passageiro"
                     value={passageiro}
                     onChangeText={text => setPassageiro(text)}
@@ -40,16 +45,17 @@ export default function App() {
                     value={dataCorrida}
                     onChangeText={text => setDataCorrida(text)}
                 />
+                  <InputForm
+                    placeholder="Valor"
+                    value={valorRecebido}
+                    onChangeText={text => setValorRecebido(text)}
+                />
                  <InputForm
                     placeholder="Meio Pgto"
                     value={meioPgto}
                     onChangeText={text => setMeioPgto(text)}
                 />
-                 <InputForm
-                    placeholder="Nº Doc"
-                    value={numDoc}
-                    onChangeText={text => setNumDoc(text)}
-                />
+            
                  <InputForm
                     placeholder="Indicação"
                     value={indicacao}
