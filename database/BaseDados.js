@@ -55,7 +55,7 @@ const encontrarCorridaPorPassageiro = (passageiro, callback) => {
   });
 };
 
-const alterarCorrida = (passageiro,origem, destino, valor, data, ndoc, meioPG, indicacao, fonteIndicacao, callback) => {
+const alterarCorrida = (passageiro, origem, destino, valor, data, ndoc, meioPG, indicacao, fonteIndicacao, callback) => {
   db.transaction((tx) => {
     const sql = 'UPDATE corrida SET passageiro = ?,origem = ?, destino = ?, valor = ?, data = ?, ndoc = ?, meioPG = ?, indicacao = ?, fonteIndicacao = ? WHERE id = ?';
     const params = [passageiro,origem, destino, valor, data, ndoc, meioPG, indicacao, fonteIndicacao];
