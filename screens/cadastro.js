@@ -1,17 +1,36 @@
 import { useState } from "react";
 import { ScrollView } from "react-native";
 import { Container, InputForm, TextTitle, BtnSubmitForm, TxtSubmitForm} from '../app/src/styles/custom';
+import { adicionarCorrida } from "../database/BaseDados";
 
-export default function App() {
+  const Cadastro = ({navigation}) => {
     const [dataCorrida, setDataCorrida] = useState('');
     const [valorRecebido, setValorRecebido] = useState('');
     const [meioPgto, setMeioPgto] = useState('');
-    const [numDoc, setNumDoc] = useState('');
+    const [nDoc, setnDoc] = useState('');
     const [indicacao, setIndicacao] = useState('');
     const [fonteIndicacao, setFonteIndicacao] = useState('');
     const [origem, setOrigem] = useState('');
     const [destino, setDestino] = useState('');
     const [passageiro, setPassageiro] = useState('');
+
+    const handleCadastro = () => {
+        if (!nDoc || !passageiro || !valor) {
+            alert('Preencha pelo menos o número do documento, passageiro e valor.');
+            return;
+        }
+
+    adicionarCorrida(nDoc,passageiro,origem,destino, parseFloat(valorRecebido),dataCorrida,meioPgto,indicacao,fonteIndicacao, (id) => {
+       if (id) {
+            alert('Corrida cadastrada com sucesso!');
+            navigation.navigate('HomeScreen');
+        } else {
+            alert('Erro ao cadastrar id.');
+        }
+        });
+    navigation.navigate('HomeScreen');
+    };
+  
 
     return (
         <ScrollView contentContainerStyle={{ flexGrow: 1}}>
@@ -22,8 +41,8 @@ export default function App() {
                 </TextTitle>
                 <InputForm
                     placeholder="Nº Doc"
-                    value={numDoc}
-                    onChangeText={text => setNumDoc(text)}
+                    value={nDoc}
+                    onChangeText={text => setnDoc(text)}
                 />
                 <InputForm
                     placeholder="Passageiro"
@@ -67,7 +86,7 @@ export default function App() {
                     onChangeText={text => setFonteIndicacao(text)}
                 />
                 
-                <BtnSubmitForm>
+                <BtnSubmitForm onPress={adicionarCorrida}>
                     <TxtSubmitForm>
                         Salvar
                     </TxtSubmitForm>
@@ -77,3 +96,5 @@ export default function App() {
             </ScrollView>
           );
 }
+
+export default Cadastro;

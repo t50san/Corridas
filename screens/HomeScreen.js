@@ -14,8 +14,8 @@ const HomeScreen = ({ navigation }) => {
   const handleExcluir = () => {
     navigation.navigate("Excluir");
   };
-  const handleEncontrarJogo = () => {
-    navigation.navigate("VisualizarCorridaEspecifica")
+  const handleVisualizarUm = () => {
+    navigation.navigate("VisualizarUm")
   };
   return (
     <View style={styles.container}>
@@ -23,7 +23,7 @@ const HomeScreen = ({ navigation }) => {
       <View style={styles.buttonContainer}>
         <Button title="Cadastrar" color="#007BFF" onPress={handleCadastro} />
         <Button title="Atualizar" color="#5BC0DE" onPress={handleAlterar} />
-        <Button title="Visualizar Corrida Específica" color="#5BC0DE" onPress={handleEncontrarJogo}/>
+        <Button title="Visualizar uma corrida" color="#5BC0DE" onPress={handleVisualizarUm}/>
         <Button title="Visualizar Todos" color="#5BC0DE" onPress={handleVisualizarTodos} />
         <Button title="Excluir" color="#D9534F" onPress={handleExcluir} />
       </View>

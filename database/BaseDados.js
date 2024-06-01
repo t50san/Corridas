@@ -19,11 +19,11 @@ db.transaction((tx) => {
   );
 });
 
-const adicionarCorrida = (passageiro,origem, destino, valor, data, ndoc, meioPG, indicacao, fonteIndicacao, callback) => {
+const adicionarCorrida = (ndoc, passageiro,origem, destino, valor, data, meioPG, indicacao, fonteIndicacao, callback) => {
   db.transaction((tx) => {
     tx.executeSql(
-      'INSERT INTO corridas (passageiro, origem, destino, valor, data, ndoc, meioPG, indicacao, fonteIndicacao) VALUES (?, ?, ?, ?)',
-    [passageiro,origem, destino, valor, data, ndoc, meioPG, indicacao, fonteIndicacao],
+      'INSERT INTO corridas ( passageiro, origem, destino, valor, data, meioPG, indicacao, fonteIndicacao) VALUES (?, ?, ?, ?)',
+    [ndoc, passageiro,origem, destino, valor, data, meioPG, indicacao, fonteIndicacao],
     (_, result) => {
         callback(result.insertId);
       },
@@ -55,10 +55,10 @@ const encontrarCorridaPorPassageiro = (passageiro, callback) => {
   });
 };
 
-const alterarCorrida = (passageiro, origem, destino, valor, data, ndoc, meioPG, indicacao, fonteIndicacao, callback) => {
+const alterarCorrida = (ndoc, passageiro, origem, destino, valor, data, meioPG, indicacao, fonteIndicacao, callback) => {
   db.transaction((tx) => {
-    const sql = 'UPDATE corrida SET passageiro = ?,origem = ?, destino = ?, valor = ?, data = ?, ndoc = ?, meioPG = ?, indicacao = ?, fonteIndicacao = ? WHERE id = ?';
-    const params = [passageiro,origem, destino, valor, data, ndoc, meioPG, indicacao, fonteIndicacao];
+    const sql = 'UPDATE corrida SET ndoc = ?, passageiro = ?,origem = ?, destino = ?, valor = ?, data = ?, meioPG = ?, indicacao = ?, fonteIndicacao = ? WHERE id = ?';
+    const params = [ndoc, passageiro,origem, destino, valor, data, meioPG, indicacao, fonteIndicacao];
     
     tx.executeSql(
       sql,
