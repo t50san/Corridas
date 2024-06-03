@@ -23,7 +23,7 @@ const adicionarCorrida = (ndoc, passageiro,origem, destino, valor, data, meioPG,
   db.transaction((tx) => {
     tx.executeSql(
       'INSERT INTO corridas ( passageiro, origem, destino, valor, data, meioPG, indicacao, fonteIndicacao) VALUES (?, ?, ?, ?)',
-    [ndoc, passageiro,origem, destino, valor, data, meioPG, indicacao, fonteIndicacao],
+    [ndoc, passageiro, origem, destino, valor, data, meioPG, indicacao, fonteIndicacao],
     (_, result) => {
         callback(result.insertId);
       },
