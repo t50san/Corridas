@@ -22,7 +22,7 @@ db.transaction((tx) => {
 const adicionarCorrida = (ndoc, passageiro,origem, destino, valor, data, meioPG, indicacao, fonteIndicacao, callback) => {
   db.transaction((tx) => {
     tx.executeSql(
-      'INSERT INTO corridas ( passageiro, origem, destino, valor, data, meioPG, indicacao, fonteIndicacao) VALUES (?, ?, ?, ?)',
+      'INSERT INTO corridas ( ndoc, passageiro, origem, destino, valor, data, meioPG, indicacao, fonteIndicacao) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
     [ndoc, passageiro, origem, destino, valor, data, meioPG, indicacao, fonteIndicacao],
     (_, result) => {
         callback(result.insertId);
@@ -45,7 +45,7 @@ const listarCorridas = (callback) => {
 
 const encontrarCorridaPorPassageiro = (passageiro, callback) => {
     db.transaction((tx) => {
-        tx.executeSql('SELECT * FROM corridas WHERE passageiro = ?', [nome], (_, { rows }) => {
+        tx.executeSql('SELECT * FROM corridas WHERE passageiro = ?', [passageiro], (_, { rows }) => {
             if (rows.lenght > 0) {
             callback(rows._array[0]);
       } else {
