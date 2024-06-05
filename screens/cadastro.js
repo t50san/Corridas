@@ -26,6 +26,7 @@ import DateTimePicker from "react-native-modal-datetime-picker";
         }
 
         adicionarCorrida(nDoc,passageiro,origem,destino, valorRecebidoFloat,dataCorrida.toISOString(),meioPgto,indicacao,fonteIndicacao);
+        navigation.navigate('Home');
     };
   
 
