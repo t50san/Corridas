@@ -1,88 +1,140 @@
-import { openDatabaseSync}  from 'expo-sqlite';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const db = openDatabaseSync('Corridas.db');
+const STORAGE_KEY = 'Corridas'; 
 
-db.execSync(
-    `CREATE TABLE IF NOT EXISTS corridas 
-     (id INTEGER PRIMARY KEY AUTOINCREMENT, 
-      passageiro TEXT, 
-      origem TEXT, 
-      destino TEXT, 
-      valor REAL, 
-      data TEXT,
-      ndoc REAL,
-      meioPG TEXT,
-      indicacao TEXT,
-      fonteIndicacao TEXT    
-    );`
-);
+const serializeData = (data) => JSON.stringify(data);
 
-const adicionarCorrida = (ndoc, passageiro,origem, destino, valor, data, meioPG, indicacao, fonteIndicacao, callback) => {
-  db.execSync(
-      'INSERT INTO corridas ( passageiro, origem, destino, valor, data, meioPG, indicacao, fonteIndicacao) VALUES (?, ?, ?, ?)',
-    [ndoc, passageiro, origem, destino, valor, data, meioPG, indicacao, fonteIndicacao],
-    (_, result) => {
-      callback(result.insertId);
-    },
-    (_, error) => {
-      console.error('Erro ao adicionar corrida:', error);
-      callback(null);
+function generateUUID() {
+  const randomBytes = new Uint8Array(16);
+  for (let i = 0; i < randomBytes.length; i++) {
+    randomBytes[i] = Math.floor(Math.random() * 256); 
+  }
+
+  const hexBytes = [];
+  for (const byte of randomBytes) {
+    hexBytes.push(byte.toString(16).padStart(2, '0')); 
+  }
+
+  const uuid =
+    hexBytes[0] +
+    hexBytes[1] +
+    '-' +
+    hexBytes[2] +
+    hexBytes[3] +
+    '-' +
+    hexBytes[4] +
+    hexBytes[5] +
+    '-' +
+    hexBytes[6] +
+    hexBytes[7] +
+    '-' +
+    hexBytes[8] +
+    hexBytes[9] +
+    hexBytes[10] +
+    hexBytes[11] +
+    hexBytes[12] +
+    hexBytes[13] +
+    hexBytes[14] +
+    hexBytes[15];
+
+  return uuid;
+}
+
+const deserializeData = async (data) => {
+  try {
+    return JSON.parse(data);
+  } catch (error) {
+    console.error('Error parsing stored data:', error);
+    return null; 
+  }
+};
+
+const adicionarCorrida = async (ndoc, passageiro, origem, destino, valor, data, meioPG, indicacao, fonteIndicacao, callback) => {
+  try {
+    console.log("Entrei");
+    const corridas = await getAllCorridas(); 
+    var id = generateUUID();
+
+    const newCorrida = { id, ndoc, passageiro, origem, destino, valor, data, meioPG, indicacao, fonteIndicacao };
+    corridas.push(newCorrida); 
+
+    const serializedCorridas = serializeData(corridas); 
+
+    console.log("serializedCorridas", serializedCorridas)
+
+    await AsyncStorage.setItem(STORAGE_KEY, serializedCorridas); 
+
+    return newCorrida; 
+  } catch (error) {
+    console.error('Erro ao adicionar corrida:', error);
+    callback(null);
+  }
+};
+
+const listarCorridas = async (callback) => {
+  try {
+    console.log("Entrei aqui alek");
+    const serializedCorridas = await AsyncStorage.getItem(STORAGE_KEY);
+    const corridas = await deserializeData(serializedCorridas);
+
+    callback(corridas || [], null); 
+  } catch (error) {
+    console.error('Erro ao listar corridas:', error);
+    callback(null, error);
+  }
+};
+
+const encontrarCorridaPorPassageiro = async (passageiro, callback) => {
+  try {
+    const corridas = await getAllCorridas();
+    const foundCorrida = corridas.find((corrida) => corrida.passageiro === passageiro);
+    callback(foundCorrida || null); 
+  } catch (error) {
+    console.error('Erro ao encontrar corrida por passageiro:', error);
+    callback(null);
+  }
+};
+
+const alterarCorrida = async (ndoc, passageiro, origem, destino, valor, data, meioPG, indicacao, fonteIndicacao, callback) => {
+  try {
+    const corridas = await getAllCorridas();
+    const index = corridas.findIndex((corrida) => corrida.ndoc === ndoc);
+    if (index !== -1) {
+      corridas[index] = { ndoc, passageiro, origem, destino, valor, data, meioPG, indicacao, fonteIndicacao };
+
+      const serializedCorridas = serializeData(corridas);
+      await AsyncStorage.setItem(STORAGE_KEY, serializedCorridas);
+
+      callback(true);
+    } else {
+      callback(false); 
     }
-  );
+  } catch (error) {
+    console.error('Erro ao alterar corrida:', error);
+    callback(false);
+  }
 };
 
-const listarCorridas = (callback) => {
-  db.executeSql('SELECT * FROM corridas', 
-    [], 
-    (_, { rows }) => {
-        callback(rows._array);
-    }
-  );
+const excluirCorrida = async (id, callback) => {
+  try {
+    const corridas = await getAllCorridas();
+    const filteredCorridas = corridas.filter((corrida) => corrida.id !== id);
+
+    const serializedCorridas = serializeData(filteredCorridas);
+    await AsyncStorage.setItem(STORAGE_KEY, serializedCorridas);
+
+    callback({bool: true, data: filteredCorridas});
+  } catch (error) {
+    console.error('Erro ao excluir corrida:', error);
+    callback(false);
+  }
 };
 
-const encontrarCorridaPorPassageiro = (passageiro, callback) => {
-    db.executeSql('SELECT * FROM corridas WHERE passageiro = ?', 
-      [nome], 
-      (_, { rows }) => {
-              if (rows.lenght > 0) {
-              callback(rows._array[0]);
-        } else {
-          callback(null);
-        }
-      }
-    );
-};
-
-const alterarCorrida = (ndoc, passageiro, origem, destino, valor, data, meioPG, indicacao, fonteIndicacao, callback) => {
-    const sql = 'UPDATE corrida SET ndoc = ?, passageiro = ?,origem = ?, destino = ?, valor = ?, data = ?, meioPG = ?, indicacao = ?, fonteIndicacao = ? WHERE id = ?';
-    const params = [ndoc, passageiro,origem, destino, valor, data, meioPG, indicacao, fonteIndicacao];
-    
-    db.executeSql(
-      sql,
-      params,
-      (_, result) => {
-        callback(result.rowsAffected);
-      },
-      (_, error) => {
-        console.error('Erro ao alterar corrida:', error);
-        callback(0);
-      }
-    );
-};
-
-const excluirCorrida = (passageiro, callback) => {
-  db.executeSql(
-    'DELETE FROM corrida WHERE id = ?',
-    [id],
-    (_, result) => {
-      callback(result.rowsAffected);
-    },
-    (_, error) => {
-      console.error('Erro ao excluir corrida:', error);
-      callback(0);
-    }
-  );
-  
+const getAllCorridas = async () => {
+  console.log("serializedCorridas")
+  const serializedCorridas = await AsyncStorage.getItem(STORAGE_KEY);
+  console.log(serializedCorridas)
+  return await deserializeData(serializedCorridas) || [];
 };
 
 export { adicionarCorrida, listarCorridas, alterarCorrida, encontrarCorridaPorPassageiro, excluirCorrida };

@@ -2,7 +2,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 import HomeScreen from '../screens/HomeScreen';
-import cadastro from '../screens/cadastro';
+import cadastro from '../screens/Cadastro';
 import VisualizarTodos from '../screens/VisualizarTodos';
 import Excluir from '../screens/Excluir';
 import Alterar from '../screens/Alterar';

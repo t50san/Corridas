@@ -1,10 +1,13 @@
 import { useState } from "react";
-import { ScrollView } from "react-native";
+import { Button, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { Container, InputForm, TextTitle, BtnSubmitForm, TxtSubmitForm} from '../app/src/styles/custom';
 import { adicionarCorrida } from "../database/BaseDados";
+import RNDateTimePicker from "@react-native-community/datetimepicker";
+import DateTimePicker from "react-native-modal-datetime-picker";
 
   const Cadastro = ({navigation}) => {
-    const [dataCorrida, setDataCorrida] = useState('');
+    const [dataCorrida, setDataCorrida] = useState(null);
+    const [datePickerVisible, setDatePickerVisible] = useState(false);
     const [valorRecebido, setValorRecebido] = useState('');
     const [meioPgto, setMeioPgto] = useState('');
     const [nDoc, setnDoc] = useState('');
@@ -15,20 +18,14 @@ import { adicionarCorrida } from "../database/BaseDados";
     const [passageiro, setPassageiro] = useState('');
 
     const handleCadastro = () => {
-        if (!nDoc || !passageiro || !valor) {
+        var valorRecebidoFloat = parseFloat(valorRecebido)
+
+        if (!nDoc || !passageiro || !valorRecebidoFloat) {
             alert('Preencha pelo menos o número do documento, passageiro e valor.');
             return;
         }
 
-    adicionarCorrida(nDoc,passageiro,origem,destino, parseFloat(valorRecebido),dataCorrida,meioPgto,indicacao,fonteIndicacao, (id) => {
-       if (id) {
-            alert('Corrida cadastrada com sucesso!');
-            navigation.navigate('HomeScreen');
-        } else {
-            alert('Erro ao cadastrar id.');
-        }
-        });
-    navigation.navigate('HomeScreen');
+        adicionarCorrida(nDoc,passageiro,origem,destino, valorRecebidoFloat,dataCorrida.toISOString(),meioPgto,indicacao,fonteIndicacao);
     };
   
 
@@ -54,20 +51,51 @@ import { adicionarCorrida } from "../database/BaseDados";
                     value={origem}
                     onChangeText={text => setOrigem(text)}
                 />
-                    <InputForm
+                <InputForm
                     placeholder="Destino"
                     value={destino}
                     onChangeText={text => setDestino(text)}
                 />
-                <InputForm
-                    placeholder="Data"
-                    value={dataCorrida}
-                    onChangeText={text => setDataCorrida(text)}
+                <View style={{
+                    width: "50%",
+                    marginBottom: 10,
+                    padding: 10,
+                    backgroundColor: "#f5f5f5",
+                    borderRadius: 5,
+                    color: "#222",
+                }}>
+                    <TouchableOpacity onPress={() => setDatePickerVisible(true)}>
+                            <Text style={{fontSize: 15, color: "grey"}}>
+                            {
+                                dataCorrida
+                                ?
+                                `${dataCorrida.toLocaleDateString('pt-BR')} ${dataCorrida.toLocaleTimeString('pt-BR')}`
+                                :
+                                "Selecione a Data"
+                            }
+                            </Text>
+                    </TouchableOpacity>
+                </View>
+                <DateTimePicker
+                    isVisible={datePickerVisible}
+                    onTouchEnd={() => {console.log("teste")}}
+                    onConfirm={(e) => {
+                        console.log("Confirmei")
+                        setDataCorrida(e);
+                        setDatePickerVisible(false); 
+                    }}
+                    onCancel={() => setDatePickerVisible(false)}
+                    value={new Date()}
+                    mode="datetime"
+                    locale="en_GB" 
+                    is24Hour={true}
+                    
                 />
-                  <InputForm
+                <InputForm
                     placeholder="Valor"
                     value={valorRecebido}
-                    onChangeText={text => setValorRecebido(text)}
+                    keyboardType={'numeric'}
+                    onChangeText={text => setValorRecebido(text.replace(/[^0-9]/g, '').slice(-2))}
                 />
                  <InputForm
                     placeholder="Meio Pgto"
@@ -86,7 +114,7 @@ import { adicionarCorrida } from "../database/BaseDados";
                     onChangeText={text => setFonteIndicacao(text)}
                 />
                 
-                <BtnSubmitForm onPress={adicionarCorrida}>
+                <BtnSubmitForm onPress={handleCadastro}>
                     <TxtSubmitForm>
                         Salvar
                     </TxtSubmitForm>
