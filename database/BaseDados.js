@@ -1,4 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Alert } from "react-native";
 
 const STORAGE_KEY = 'Corridas'; 
 
@@ -53,6 +54,14 @@ const adicionarCorrida = async (ndoc, passageiro, origem, destino, valor, data, 
   try {
     console.log("Entrei");
     const corridas = await getAllCorridas(); 
+
+    var numCorridasDoc = corridas.filter(corrida => corrida.ndoc == ndoc).length;
+
+    if(numCorridasDoc > 0) {
+      Alert.alert("Erro esse numero já existe!");
+      return;
+    }
+
     var id = generateUUID();
 
     const newCorrida = { id, ndoc, passageiro, origem, destino, valor, data, meioPG, indicacao, fonteIndicacao };

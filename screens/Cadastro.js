@@ -28,6 +28,12 @@ import DateTimePicker from "react-native-modal-datetime-picker";
         adicionarCorrida(nDoc,passageiro,origem,destino, valorRecebidoFloat,dataCorrida.toISOString(),meioPgto,indicacao,fonteIndicacao);
         navigation.navigate('Home');
     };
+
+    const formatCurrency = (inputValue) => {
+        const numericValue = parseFloat(inputValue.replace(/[^0-9]/g, '')); // Remove caracteres não numéricos
+        if (isNaN(numericValue)) return ''; // Se não for um número válido, retorna vazio
+        return `R$ ${numericValue.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`;
+    };
   
 
     return (
@@ -95,8 +101,8 @@ import DateTimePicker from "react-native-modal-datetime-picker";
                 <InputForm
                     placeholder="Valor"
                     value={valorRecebido}
-                    keyboardType={'numeric'}
-                    onChangeText={text => setValorRecebido(text.replace(/[^0-9]/g, '').slice(-2))}
+                    keyboardType={'decimal-pad'}
+                    onChangeText={text => {setValorRecebido(text); console.log(text)}}
                 />
                  <InputForm
                     placeholder="Meio Pgto"

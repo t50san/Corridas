@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
+import { View, Text, Button, StyleSheet, Image } from 'react-native';
 
 const HomeScreen = ({ navigation }) => {
   const handleCadastro = () => {
@@ -19,13 +19,12 @@ const HomeScreen = ({ navigation }) => {
   };
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Sua Coleção</Text>
+      <Image source={require("../assets/HS.jpeg")} style={{width: 150, height: 150, borderRadius: 10, marginBottom: 10}}/>
+      <Text style={styles.title}>MotoSmart</Text>
       <View style={styles.buttonContainer}>
         <Button title="Cadastrar" color="#007BFF" onPress={handleCadastro} />
-        <Button title="Atualizar" color="#5BC0DE" onPress={handleAlterar} />
-        <Button title="Visualizar uma corrida" color="#5BC0DE" onPress={handleVisualizarUm}/>
+        {/* <Button title="Visualizar uma corrida" color="#5BC0DE" onPress={handleVisualizarUm}/> */}
         <Button title="Visualizar Todos" color="#5BC0DE" onPress={handleVisualizarTodos} />
-        <Button title="Excluir" color="#D9534F" onPress={handleExcluir} />
       </View>
     </View>
   );
