@@ -52,7 +52,7 @@ import DateTimePicker from "react-native-modal-datetime-picker";
 
     return (
         <ScrollView contentContainerStyle={{ flexGrow: 1}}>
-            <Container>
+            <Container  style={{flexDirection: 'row',  flexWrap: "wrap", justifyContent: "center", alignItems: "center"}}>
                 <TextTitle> 
                     Informe os dados da corrida
                     
@@ -78,15 +78,19 @@ import DateTimePicker from "react-native-modal-datetime-picker";
                     onChangeText={text => setDestino(text)}
                 />
                 <View style={{
-                    width: "50%",
+                    width: "40%",
+                    margin: 10,
                     marginBottom: 10,
+                    height: 45,
                     padding: 10,
                     backgroundColor: "#f5f5f5",
                     borderRadius: 5,
                     color: "#222",
-                }}>
+                    justifyContent: "center",
+                    alignItems: "center"
+                }}>                    
                     <TouchableOpacity onPress={() => setDatePickerVisible(true)}>
-                            <Text style={{fontSize: 15, color: "grey"}}>
+                            <Text style={{fontSize: 13, color: "grey"}}>
                             {
                                 dataCorrida
                                 ?
