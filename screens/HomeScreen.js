@@ -20,7 +20,7 @@ const HomeScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Image source={require("../assets/HS.jpeg")} style={{width: 250, height: 250, borderRadius: 10, marginBottom: 10}}/>
-      <Text style={styles.title}>MotoSmart</Text>
+      <Text style={styles.title}>Corridas</Text>
       <View style={styles.buttonContainer}>
         <TouchableOpacity onPress={handleCadastro}  style={{padding: 20, justifyContent: "center", alignItems: "center", borderWidth: 1, borderRadius: 10, borderColor: "grey"}}>
           <Image source={require("../assets/icone_cadastro.jpeg")} style={{width: 80, height: 80}}/>

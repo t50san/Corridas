@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useState, React } from "react";
 import { Button, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { Container, InputForm, TextTitle, BtnSubmitForm, TxtSubmitForm} from '../app/src/styles/custom';
 import { adicionarCorrida } from "../database/BaseDados";
-import RNDateTimePicker from "@react-native-community/datetimepicker";
 import DateTimePicker from "react-native-modal-datetime-picker";
+import { SelectList } from 'react-native-dropdown-select-list';
 
   const Cadastro = ({navigation}) => {
     const [dataCorrida, setDataCorrida] = useState(null);
@@ -12,11 +12,12 @@ import DateTimePicker from "react-native-modal-datetime-picker";
     const [meioPgto, setMeioPgto] = useState('');
     const [nDoc, setnDoc] = useState('');
     const [indicacao, setIndicacao] = useState('');
-    const [fonteIndicacao, setFonteIndicacao] = useState('');
     const [origem, setOrigem] = useState('');
     const [destino, setDestino] = useState('');
     const [passageiro, setPassageiro] = useState('');
-
+    const [fonteIndicacao, setFonteIndicacao] = useState('');
+    
+    
     const handleCadastro = () => {
         var valorRecebidoFloat = parseFloat(valorRecebido)
 
@@ -43,7 +44,7 @@ import DateTimePicker from "react-native-modal-datetime-picker";
                     Informe os dados da corrida
                 </TextTitle>
                 <InputForm
-                    placeholder="Nº Doc"
+                    placeholder="NF/Recibo"
                     value={nDoc}
                     onChangeText={text => setnDoc(text)}
                 />
@@ -54,6 +55,7 @@ import DateTimePicker from "react-native-modal-datetime-picker";
                 />
                 <InputForm
                     placeholder="Origem"
+                    autocomplete="origem"
                     value={origem}
                     onChangeText={text => setOrigem(text)}
                 />
@@ -61,6 +63,12 @@ import DateTimePicker from "react-native-modal-datetime-picker";
                     placeholder="Destino"
                     value={destino}
                     onChangeText={text => setDestino(text)}
+                />
+                 <InputForm
+                    placeholder="Valor"
+                    value={valorRecebido}
+                    keyboardType={'decimal-pad'}
+                    onChangeText={text => {setValorRecebido(text); console.log(text)}}
                 />
                 <View style={{
                     width: "40%",
@@ -98,32 +106,24 @@ import DateTimePicker from "react-native-modal-datetime-picker";
                     value={new Date()}
                     mode="datetime"
                     locale="en_GB" 
-                    is24Hour={true}
-                    
+                    is24Hour={true} 
                 />
                 <InputForm
-                    placeholder="Valor"
-                    value={valorRecebido}
-                    keyboardType={'decimal-pad'}
-                    onChangeText={text => {setValorRecebido(text); console.log(text)}}
-                />
-                 <InputForm
                     placeholder="Meio Pgto"
                     value={meioPgto}
                     onChangeText={text => setMeioPgto(text)}
                 />
-            
-                 <InputForm
+                <InputForm
                     placeholder="Indicação"
                     value={indicacao}
                     onChangeText={text => setIndicacao(text)}
                 />
-                 <InputForm
-                    placeholder="Fonte da Indicação"
+                
+                <InputForm
+                    placeholder="Fonte"
                     value={fonteIndicacao}
                     onChangeText={text => setFonteIndicacao(text)}
                 />
-                
                 <BtnSubmitForm onPress={handleCadastro}>
                     <TxtSubmitForm>
                         Salvar

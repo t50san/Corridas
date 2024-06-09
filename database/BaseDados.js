@@ -82,7 +82,7 @@ const adicionarCorrida = async (ndoc, passageiro, origem, destino, valor, data, 
 
 const listarCorridas = async (callback) => {
   try {
-    console.log("Entrei aqui alek");
+    console.log("In");
     const serializedCorridas = await AsyncStorage.getItem(STORAGE_KEY);
     const corridas = await deserializeData(serializedCorridas);
 

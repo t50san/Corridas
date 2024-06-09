@@ -29,7 +29,7 @@ const VisualizarTodos = ({navigation}) => {
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <View style={styles.item}>
-            <Text>Nº doc: {item.ndoc}</Text>
+            <Text>Nº NF/Recibo: {item.ndoc}</Text>
             <Text>Passageiro: {item.passageiro}</Text>
             <Text>Origem: {item.origem}</Text>
             <Text>Destino: {item.destino}</Text>
@@ -37,7 +37,7 @@ const VisualizarTodos = ({navigation}) => {
             <Text>Data: {item.data ? `${(new Date(item.data)).toLocaleDateString('pt-br')} ${(new Date(item.data)).toLocaleTimeString('pt-br')}` : ""}</Text>
             <Text>meio de pagamento: {item.meioPG}</Text>
             <Text>Indicação: {item.indicacao}</Text>
-            <Text>Fonte da indicação: {item.fonteIndicacao}</Text>
+            <Text>Fonte: {item.fonteIndicacao}</Text>
             <View style={{flexDirection: "row"}}>
               <TouchableOpacity onPress={() => excluirCorrida(item.id, (response) => {
                 if(response && response.bool) {
@@ -57,7 +57,7 @@ const VisualizarTodos = ({navigation}) => {
                 corrida: item
               })} style={{padding: 10, borderWidth: 1, borderColor: "black", borderRadius: 3, width: "30%", alignItems: "center", marginTop: 10}}>
                 <Text>
-                  Atualizar
+                  Alterar
                 </Text>
               </TouchableOpacity>
             </View>

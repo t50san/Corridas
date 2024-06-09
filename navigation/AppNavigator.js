@@ -6,7 +6,6 @@ import cadastro from '../screens/Cadastro';
 import VisualizarTodos from '../screens/VisualizarTodos';
 import Excluir from '../screens/Excluir';
 import Alterar from '../screens/Alterar';
-import VisualizarUm from '../screens/VisualizarUm';
 
 const Stack = createStackNavigator();
 
@@ -39,12 +38,7 @@ const AppNavigator = () => {
           component={Excluir} 
           options={{ title: 'Excluir' }} 
         />{/**/}
-        <Stack.Screen
-          name="VisualizarUm"
-          component={VisualizarUm}
-          options={{ title: 'Visualizar' }}
-           />
-  
+        
         </Stack.Navigator>
       </NavigationContainer>
     );
