@@ -1,5 +1,5 @@
 import { useState, React } from "react";
-import { Button, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Button, Dimensions, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { Container, InputForm, TextTitle, BtnSubmitForm, TxtSubmitForm} from '../app/src/styles/custom';
 import { adicionarCorrida } from "../database/BaseDados";
 import DateTimePicker from "react-native-modal-datetime-picker";
@@ -35,6 +35,12 @@ import { SelectList } from 'react-native-dropdown-select-list';
         if (isNaN(numericValue)) return ''; // Se não for um número válido, retorna vazio
         return `R$ ${numericValue.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`;
     };
+
+    const data = [
+        {key:'1', value:'Uber'},
+        {key:'2', value:'Cooperativa'},
+        {key:'3', value:'Avulso'}
+    ]
   
 
     return (
@@ -118,12 +124,17 @@ import { SelectList } from 'react-native-dropdown-select-list';
                     value={indicacao}
                     onChangeText={text => setIndicacao(text)}
                 />
-                
-                <InputForm
-                    placeholder="Fonte"
-                    value={fonteIndicacao}
-                    onChangeText={text => setFonteIndicacao(text)}
-                />
+                <View style={{display: "flex", justifyContent: "center", alignItems: "center", margin: 20, width: Dimensions.get('window').width}}>
+                    <SelectList
+                        boxStyles={{display: "flex", backgroundColor: '#f5f5f5'}}
+                        dropdownStyles={{display: "flex", backgroundColor: '#f5f5f5'}}
+                        inputStyles={{display: "flex"}}
+                        placeholder="Fonte de Indicação"
+                        data={data}
+                        save="value"
+                        setSelected={(value) => setFonteIndicacao(value)}
+                    />
+                </View>
                 <BtnSubmitForm onPress={handleCadastro}>
                     <TxtSubmitForm>
                         Salvar
