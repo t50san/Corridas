@@ -50,7 +50,7 @@ const deserializeData = async (data) => {
   }
 };
 
-const adicionarCorrida = async (ndoc, passageiro, origem, destino, valor, data, meioPG, indicacao, fonteIndicacao, callback) => {
+const adicionarCorrida = async (ndoc, passageiro, origem, destino, valor, data, meioPG, indicacao, fonteIndicacao) => {
   try {
     console.log("Entrei");
     const corridas = await getAllCorridas(); 
@@ -73,10 +73,10 @@ const adicionarCorrida = async (ndoc, passageiro, origem, destino, valor, data, 
 
     await AsyncStorage.setItem(STORAGE_KEY, serializedCorridas); 
 
-    return newCorrida; 
+    return {bool: true, data: newCorrida}; 
   } catch (error) {
     console.error('Erro ao adicionar corrida:', error);
-    callback(null);
+    return;
   }
 };
 

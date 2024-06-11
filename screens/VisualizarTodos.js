@@ -4,12 +4,19 @@ import { excluirCorrida, listarCorridas } from '../database/BaseDados';
 
 const VisualizarTodos = ({navigation}) => {
   const [corridas, setCorridas] = useState([]);
-  const [changed, setChanged] = useState(false);
+  const [valorTotal, setValorTotal] = useState(0);
 
   useEffect(() => {
     console.log("Alow")
     listarCorridas((corridas) => {
       setCorridas(corridas);
+      var valorTotalAux = 0;
+
+      corridas.map((corrida) => {
+        valorTotalAux += corrida.valor;
+      })
+
+      setValorTotal(valorTotalAux);
     });
   }, []);
 
@@ -22,6 +29,9 @@ const VisualizarTodos = ({navigation}) => {
           <Text style={styles.title}>Total de corridas: {corridas.length}</Text>
         : 
           <></>
+      }
+      {
+        <Text style={styles.title}>Valor total das corridas: R${valorTotal}</Text>
       }
       
       <FlatList
@@ -46,7 +56,6 @@ const VisualizarTodos = ({navigation}) => {
                 } else {
                   Alert.alert("Erro ao remover")
                 }
-                setChanged(true);
               })} style={{padding: 10,marginRight: 20, borderWidth: 1, borderColor: "black", borderRadius: 3, width: "30%", alignItems: "center", marginTop: 10}}>
                 <Text>
                   Remover

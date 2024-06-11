@@ -1,5 +1,5 @@
 import { useState, React } from "react";
-import { Button, Dimensions, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Alert, Button, Dimensions, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { Container, InputForm, TextTitle, BtnSubmitForm, TxtSubmitForm} from '../app/src/styles/custom';
 import { adicionarCorrida } from "../database/BaseDados";
 import DateTimePicker from "react-native-modal-datetime-picker";
@@ -16,18 +16,34 @@ import { SelectList } from 'react-native-dropdown-select-list';
     const [destino, setDestino] = useState('');
     const [passageiro, setPassageiro] = useState('');
     const [fonteIndicacao, setFonteIndicacao] = useState('');
+    const [error, setError] = useState(false);
     
     
-    const handleCadastro = () => {
+    const handleCadastro = async () => {
         var valorRecebidoFloat = parseFloat(valorRecebido)
 
         if (!nDoc || !passageiro || !valorRecebidoFloat) {
             alert('Preencha pelo menos o número do documento, passageiro e valor.');
+            setError(true);
             return;
         }
 
-        adicionarCorrida(nDoc,passageiro,origem,destino, valorRecebidoFloat,dataCorrida.toISOString(),meioPgto,indicacao,fonteIndicacao);
-        navigation.navigate('Home');
+        if(dataCorrida) {
+            dataCorrida = dataCorrida.toISOString();
+        }
+
+        var response = await adicionarCorrida(nDoc,passageiro,origem,destino, valorRecebidoFloat,dataCorrida,meioPgto,indicacao,fonteIndicacao);
+
+        console.log("response", response)
+
+        if(response && response.bool) {
+            Alert.alert("Cadastrado com sucesso")
+            navigation.navigate('Home');
+        } else {
+            Alert.alert("Erro ao cadastrar, preencha os campos obrigatórios");
+            setError(true);
+        }
+
     };
 
     const formatCurrency = (inputValue) => {
@@ -41,6 +57,41 @@ import { SelectList } from 'react-native-dropdown-select-list';
         {key:'2', value:'Cooperativa'},
         {key:'3', value:'Avulso'}
     ]
+
+    const inputStyle = {
+        backgroundColor: "#f5f5f5",
+        width: "40%",
+        marginBottom: 15,
+        fontSize: 20,
+        color: "#222",
+        borderRadius: 6,
+        margin: 10,
+        padding: 10,
+    }
+
+    const inputRequiredStyle = {
+        backgroundColor: "#f5f5f5",
+        width: "40%",
+        marginBottom: 15,
+        fontSize: 20,
+        color: "#222",
+        borderRadius: 6,
+        margin: 10,
+        padding: 10,
+        borderWidth: 1,
+        borderColor: "red"      
+    }
+
+    const inputPassageiroStyle = {
+        backgroundColor: "#f5f5f5",
+        width: "85%",
+        marginBottom: 15,
+        fontSize: 20,
+        color: "#222",
+        borderRadius: 6,
+        margin: 10,
+        padding: 10,
+    }
   
 
     return (
@@ -49,12 +100,14 @@ import { SelectList } from 'react-native-dropdown-select-list';
                 <TextTitle> 
                     Informe os dados da corrida
                 </TextTitle>
-                <InputForm
+                <TextInput 
+                    style={error ? inputRequiredStyle : inputStyle}
                     placeholder="NF/Recibo"
                     value={nDoc}
                     onChangeText={text => setnDoc(text)}
                 />
-                <InputForm
+                <TextInput 
+                    style={inputPassageiroStyle}
                     placeholder="Passageiro"
                     value={passageiro}
                     onChangeText={text => setPassageiro(text)}
@@ -135,7 +188,9 @@ import { SelectList } from 'react-native-dropdown-select-list';
                         setSelected={(value) => setFonteIndicacao(value)}
                     />
                 </View>
-                <BtnSubmitForm onPress={handleCadastro}>
+                <BtnSubmitForm onPress={(e) => {
+                    handleCadastro(e);
+                }}>
                     <TxtSubmitForm>
                         Salvar
                     </TxtSubmitForm>
