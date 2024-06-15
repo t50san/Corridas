@@ -12,8 +12,8 @@ const HomeScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      {/*<ImageBackground source={require(imgbackground)} style={{flex: 1, resizeMode:'cover', width:'100%'}}
-            > */}
+      <ImageBackground source={require(imgbackground)} style={{flex: 1, resizeMode:'cover', width:'100%'}}
+            >
        <Text style={styles.title}> Corridas </Text>
         <View style={styles.buttonContainer}>
           <TouchableOpacity onPress={handleCadastro}  style={{padding: 20, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderRadius: 10, borderColor: 'grey'}}>
@@ -25,7 +25,7 @@ const HomeScreen = ({ navigation }) => {
             <Text> Visualizar </Text>
           </TouchableOpacity>
          </View>
-      {/*</ImageBackground>*/}
+      </ImageBackground>
     </View>
   );
 };
