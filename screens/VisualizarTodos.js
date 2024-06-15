@@ -28,7 +28,7 @@ const VisualizarTodos = ({navigation}) => {
         ?
           <Text style={styles.title}>Total de corridas: {corridas.length}</Text>
         : 
-          <></>
+         <></>
       }
       {
         <Text style={styles.title}>Valor total das corridas: R${valorTotal}</Text>

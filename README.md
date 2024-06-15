@@ -12,3 +12,6 @@
  npm install
 npm install @react-navigation/stack
 npx expo install react-native-screens react-native-safe-area-context
+
+
+      

@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Alert, Button, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
-import { Container, InputForm, TextTitle, BtnSubmitForm, TxtSubmitForm} from '../app/src/styles/custom';
 import { adicionarCorrida, alterarCorrida } from "../database/BaseDados";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
 import DateTimePicker from "react-native-modal-datetime-picker";
