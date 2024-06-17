@@ -22,16 +22,16 @@ const VisualizarTodos = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Visualizar Todos</Text>
+      {/*<Text style={styles.title}>Corridas cadastradas</Text>*/}
       {
         corridas && corridas.length > 0
         ?
-          <Text style={styles.title}>Total de corridas: {corridas.length}</Text>
+          <Text style={styles.resultado}>Total de corridas: {corridas.length}</Text>
         : 
          <></>
       }
       {
-        <Text style={styles.title}>Valor total das corridas: R${valorTotal}</Text>
+        <Text style={styles.resultado}>Valor total das corridas: R${valorTotal}</Text>
       }
       
       <FlatList
@@ -39,15 +39,15 @@ const VisualizarTodos = ({navigation}) => {
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <View style={styles.item}>
-            <Text>Nº NF/Recibo: {item.ndoc}</Text>
-            <Text>Passageiro: {item.passageiro}</Text>
-            <Text>Origem: {item.origem}</Text>
-            <Text>Destino: {item.destino}</Text>
-            <Text>Valor: {item.valor}</Text>
-            <Text>Data: {item.data ? `${(new Date(item.data)).toLocaleDateString('pt-br')} ${(new Date(item.data)).toLocaleTimeString('pt-br')}` : ""}</Text>
-            <Text>meio de pagamento: {item.meioPG}</Text>
-            <Text>Indicação: {item.indicacao}</Text>
-            <Text>Fonte: {item.fonteIndicacao}</Text>
+            <Text style={styles.textItem}>Nº NF/Recibo: {item.ndoc}</Text>
+            <Text style={styles.textItem}>Passageiro: {item.passageiro}</Text>
+            <Text style={styles.textItem}>Origem: {item.origem}</Text>
+            <Text style={styles.textItem}>Destino: {item.destino}</Text>
+            <Text style={styles.textItem}>Valor: {item.valor}</Text>
+            <Text style={styles.textItem}>Data: {item.data ? `${(new Date(item.data)).toLocaleDateString('pt-br')} ${(new Date(item.data)).toLocaleTimeString('pt-br')}` : ""}</Text>
+            <Text style={styles.textItem}>meio de pagamento: {item.meioPG}</Text>
+            <Text style={styles.textItem}>Indicação: {item.indicacao}</Text>
+            <Text style={styles.textItem}>Fonte: {item.fonteIndicacao}</Text>
             <View style={{flexDirection: "row"}}>
               <TouchableOpacity onPress={() => excluirCorrida(item.id, (response) => {
                 if(response && response.bool) {
@@ -86,6 +86,13 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: 'bold',
+    textAlign: 'center',    
+    marginBottom: 20
+  },
+  resultado: {
+    fontSize: 20,
+    marginBottom: 5,
+    textAlign: 'right'
   },
   item: {
     marginVertical: 10,
@@ -93,6 +100,10 @@ const styles = StyleSheet.create({
     borderColor: '#ccc',
     padding: 10,
   },
+  textItem: {
+    fontSize: 16,
+    textAlign: 'left'
+  }
 });
 
 export default VisualizarTodos;

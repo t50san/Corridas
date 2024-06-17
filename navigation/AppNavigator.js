@@ -16,7 +16,7 @@ const AppNavigator = () => {
           <Stack.Screen
             name="Home"
             component={HomeScreen}
-            options={{ title: 'Tela Inicial' }}
+            options={{ title: '' }}
           />
           <Stack.Screen
           name="Cadastro"
@@ -26,7 +26,7 @@ const AppNavigator = () => {
         <Stack.Screen
           name="VisualizarTodos" 
           component={VisualizarTodos} 
-          options={{ title: 'Visualizar Todos' }}
+          options={{ title: 'Corridas Cadastradas' }}
         /> 
         <Stack.Screen
           name="Alterar" 

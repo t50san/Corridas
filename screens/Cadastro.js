@@ -58,6 +58,14 @@ import { SelectList } from 'react-native-dropdown-select-list';
         {key:'3', value:'Avulso'}
     ]
 
+    const dataMeio = [
+        {key:'1', value:'App'},
+        {key:'2', value:'Debito'},
+        {key:'3', value:'Credito'},
+        {key:'4', value:'Pix'},
+        {key:'5', value:'Especie'}
+    ]
+
     const inputStyle = {
         backgroundColor: "#f5f5f5",
         width: "40%",
@@ -79,7 +87,7 @@ import { SelectList } from 'react-native-dropdown-select-list';
         margin: 10,
         padding: 10,
         borderWidth: 1,
-        borderColor: "red"      
+        borderColor: 'red'      
     }
 
     const inputPassageiroStyle = {
@@ -91,6 +99,8 @@ import { SelectList } from 'react-native-dropdown-select-list';
         borderRadius: 6,
         margin: 10,
         padding: 10,
+        borderWidth: 1,
+        borderColor: 'red'
     }
   
 
@@ -101,7 +111,7 @@ import { SelectList } from 'react-native-dropdown-select-list';
                     Informe os dados da corrida
                 </TextTitle>
                 <TextInput 
-                    style={error ? inputRequiredStyle : inputStyle}
+                    style={inputRequiredStyle}
                     placeholder="NF/Recibo"
                     value={nDoc}
                     onChangeText={text => setnDoc(text)}
@@ -123,32 +133,47 @@ import { SelectList } from 'react-native-dropdown-select-list';
                     value={destino}
                     onChangeText={text => setDestino(text)}
                 />
-                 <InputForm
+                 <TextInput
+                    style={inputRequiredStyle}
                     placeholder="Valor"
                     value={valorRecebido}
                     keyboardType={'decimal-pad'}
                     onChangeText={text => {setValorRecebido(text); console.log(text)}}
                 />
+                {/*<SelectList
+                    placeholder="Meio Pg"
+                    boxStyles={{justifyContent: "left", alignItems: "left",width: '100%', marginBottom: 15, marginRight: 30, backgroundColor: '#f5f5f5', borderWidth: 0}}
+                    dropdownStyles={{display: 'flex', backgroundColor: '#f5f5f5'}}
+                    inputStyles={{display: 'flex', fontSize: 20, borderWidth: 0}}
+                    data={dataMeio}
+                    save="value"
+                    setSelected={(value) => setMeioPgto(value)}
+                />*/}
+                <InputForm
+                    placeholder="Meio Pg"
+                    value={meioPgto}
+                    onChangeText={text => setMeioPgto(text)}
+                />
+                
                 <View style={{
-                    width: "40%",
+                    width: "85%",
                     margin: 10,
                     marginBottom: 10,
-                    height: 45,
                     padding: 10,
                     backgroundColor: "#f5f5f5",
                     borderRadius: 5,
                     color: "#222",
                     justifyContent: "center",
-                    alignItems: "center"
+                    alignItems: "left" //posiçao do texto da data
                 }}>
                     <TouchableOpacity onPress={() => setDatePickerVisible(true)} >
-                            <Text style={{fontSize: 13, color: "grey"}}>
+                            <Text style={{fontSize: 20, color: '#222'}}>
                             {
                                 dataCorrida
                                 ?
                                 `${dataCorrida.toLocaleDateString('pt-BR')} ${dataCorrida.toLocaleTimeString('pt-BR')}`
                                 :
-                                "Selecione a Data"
+                                "Data"
                             }
                             </Text>
                     </TouchableOpacity>
@@ -167,27 +192,24 @@ import { SelectList } from 'react-native-dropdown-select-list';
                     locale="en_GB" 
                     is24Hour={true} 
                 />
-                <InputForm
-                    placeholder="Meio Pgto"
-                    value={meioPgto}
-                    onChangeText={text => setMeioPgto(text)}
+                <SelectList
+                    style={{width: "85%"}}
+                    placeholder="Fonte"
+                    boxStyles={{justifyContent: "center", alignItems: "left", width: '100%',  marginBottom: 15, padding: 1, display: "flex", backgroundColor: '#f5f5f5', borderWidth: 0}}
+                    dropdownStyles={{width: '70%',display: "flex", backgroundColor: '#f5f5f5'}}
+                    inputStyles={{display: "flex", fontSize: 20, borderWidth: 0}}
+                    data={data}
+                    save="value"
+                    setSelected={(value) => setFonteIndicacao(value)}
                 />
+                
                 <InputForm
+                    style={{width: "85%"}}
                     placeholder="Indicação"
                     value={indicacao}
                     onChangeText={text => setIndicacao(text)}
                 />
-                <View style={{display: "flex", justifyContent: "center", alignItems: "center", margin: 20, width: Dimensions.get('window').width}}>
-                    <SelectList
-                        boxStyles={{display: "flex", backgroundColor: '#f5f5f5'}}
-                        dropdownStyles={{display: "flex", backgroundColor: '#f5f5f5'}}
-                        inputStyles={{display: "flex"}}
-                        placeholder="Fonte de Indicação"
-                        data={data}
-                        save="value"
-                        setSelected={(value) => setFonteIndicacao(value)}
-                    />
-                </View>
+                
                 <BtnSubmitForm onPress={(e) => {
                     handleCadastro(e);
                 }}>
